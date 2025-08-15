@@ -16,9 +16,6 @@ services:
     ports:
       - '4040:4040'
       - '4041:4041'
-    exposes:
-      - '4040'
-      - '4041'
     restart: unless-stopped
     user: apache:apache
     # read_only: true
