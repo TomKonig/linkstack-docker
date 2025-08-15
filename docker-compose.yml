@@ -14,8 +14,11 @@ services:
     volumes:
       - '/htdocs'
     ports:
-      - '4040:80'
-      - '4041:443'
+      - '4040:4040'
+      - '4041:4041'
+    exposes:
+      - '4040'
+      - '4041'
     restart: unless-stopped
     user: apache:apache
     # read_only: true
@@ -29,32 +32,3 @@ services:
         MYSQL_ROOT_PASSWORD: xeFgUGb5mPPn5q2d
     ports:
         - 3380:3380
-labels:
-      - coolify.managed=true
-      - coolify.version=4.0.0-beta.420.6
-      - coolify.serviceId=18
-      - coolify.type=service
-      - coolify.name=linkstack
-      - coolify.resourceName=linkstack
-      - coolify.projectName=tomkonig
-      - coolify.serviceName=linkstack
-      - coolify.environmentName=production
-      - coolify.pullRequestId=0
-      - coolify.service.subId=24
-      - coolify.service.subType=application
-      - coolify.service.subName=linkstack
-      - traefik.enable=true
-      - traefik.http.middlewares.gzip.compress=true
-      - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
-      - traefik.http.routers.http-0-linkstack.entryPoints=http
-      - traefik.http.routers.http-0-linkstack.middlewares=redirect-to-https
-      - 'traefik.http.routers.http-0-linkstack.rule=Host(`links.tomkonig.com`) && PathPrefix(`/`)'
-      - traefik.http.routers.http-0-linkstack.service=http-0-linkstack
-      - traefik.http.routers.https-0-linkstack.entryPoints=https
-      - traefik.http.routers.https-0-linkstack.middlewares=gzip
-      - 'traefik.http.routers.https-0-linkstack.rule=Host(`links.tomkonig.com`) && PathPrefix(`/`)'
-      - traefik.http.routers.https-0-linkstack.service=https-0-linkstack
-      - traefik.http.routers.https-0-linkstack.tls.certresolver=letsencrypt
-      - traefik.http.routers.https-0-linkstack.tls=true
-      - traefik.http.services.http-0-linkstack.loadbalancer.server.port=3380
-      - traefik.http.services.https-0-linkstack.loadbalancer.server.port=3380
