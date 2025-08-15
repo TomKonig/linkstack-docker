@@ -14,7 +14,6 @@ services:
     volumes:
       - '/htdocs'
     restart: unless-stopped
-    user: apache:apache
     # read_only: true
     depends_on:
       - mysql
