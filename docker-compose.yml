@@ -6,17 +6,16 @@ services:
     image: 'linkstackorg/linkstack:latest'
     environment:
       TZ: 'Europe/Berlin'
-      SERVER_ADMIN: 'admin@example.com'
-      HTTP_SERVER_NAME: 'example.com'
-      HTTPS_SERVER_NAME: 'example.com'
+      SERVER_ADMIN: 'thomas@schouboekoenig.dk'
+      HTTPS_SERVER_NAME: 'localhost'
       LOG_LEVEL: 'info'
       PHP_MEMORY_LIMIT: '256M'
       UPLOAD_MAX_FILESIZE: '8M'
     volumes:
       - '/htdocs'
     ports:
-      - '8080:80'
-      - '8081:443'
+      - '4040:80'
+      - '4041:443'
     restart: unless-stopped
     user: apache:apache
     # read_only: true
@@ -29,4 +28,33 @@ services:
     environment:
         MYSQL_ROOT_PASSWORD: xeFgUGb5mPPn5q2d
     ports:
-        - 3306:3306
+        - 3380:3380
+labels:
+      - coolify.managed=true
+      - coolify.version=4.0.0-beta.420.6
+      - coolify.serviceId=18
+      - coolify.type=service
+      - coolify.name=linkstack
+      - coolify.resourceName=linkstack
+      - coolify.projectName=tomkonig
+      - coolify.serviceName=linkstack
+      - coolify.environmentName=production
+      - coolify.pullRequestId=0
+      - coolify.service.subId=24
+      - coolify.service.subType=application
+      - coolify.service.subName=linkstack
+      - traefik.enable=true
+      - traefik.http.middlewares.gzip.compress=true
+      - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
+      - traefik.http.routers.http-0-linkstack.entryPoints=http
+      - traefik.http.routers.http-0-linkstack.middlewares=redirect-to-https
+      - 'traefik.http.routers.http-0-linkstack.rule=Host(`links.tomkonig.com`) && PathPrefix(`/`)'
+      - traefik.http.routers.http-0-linkstack.service=http-0-linkstack
+      - traefik.http.routers.https-0-linkstack.entryPoints=https
+      - traefik.http.routers.https-0-linkstack.middlewares=gzip
+      - 'traefik.http.routers.https-0-linkstack.rule=Host(`links.tomkonig.com`) && PathPrefix(`/`)'
+      - traefik.http.routers.https-0-linkstack.service=https-0-linkstack
+      - traefik.http.routers.https-0-linkstack.tls.certresolver=letsencrypt
+      - traefik.http.routers.https-0-linkstack.tls=true
+      - traefik.http.services.http-0-linkstack.loadbalancer.server.port=3380
+      - traefik.http.services.https-0-linkstack.loadbalancer.server.port=3380
