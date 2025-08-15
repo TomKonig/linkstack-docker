@@ -7,15 +7,12 @@ services:
     environment:
       TZ: 'Europe/Berlin'
       SERVER_ADMIN: 'thomas@schouboekoenig.dk'
-      HTTPS_SERVER_NAME: 'localhost'
+      HTTPS_SERVER_NAME: 'intelfy.dk'
       LOG_LEVEL: 'info'
       PHP_MEMORY_LIMIT: '256M'
       UPLOAD_MAX_FILESIZE: '8M'
     volumes:
       - '/htdocs'
-    ports:
-      - '4040:4040'
-      - '4041:4041'
     restart: unless-stopped
     user: apache:apache
     # read_only: true
@@ -27,5 +24,3 @@ services:
     image: mysql:8
     environment:
         MYSQL_ROOT_PASSWORD: xeFgUGb5mPPn5q2d
-    ports:
-        - 3380:3380
